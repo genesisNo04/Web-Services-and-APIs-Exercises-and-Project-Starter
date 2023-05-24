@@ -36,13 +36,13 @@ public class MapsClient {
             Address address = client
                     .get()
                     .uri(uriBuilder -> uriBuilder
-                            .path("/maps?lat=" + location.getLat() + "&lon=" + location.getLon())
+                            .path("/maps/")
+                            .queryParam("lat", location.getLat())
+                            .queryParam("lon", location.getLon())
                             .build()
                     )
                     .retrieve().bodyToMono(Address.class).block();
-
             mapper.map(Objects.requireNonNull(address), location);
-
             return location;
         } catch (Exception e) {
             log.warn("Map service is down");

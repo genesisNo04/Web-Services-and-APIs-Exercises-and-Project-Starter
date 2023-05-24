@@ -32,21 +32,15 @@ public class PriceClient {
      */
     public String getPrice(Long vehicleId) {
         try {
-            System.out.println("-------------");
-            System.out.println(client.get().retrieve().bodyToMono(Price.class).block().toString());
-            System.out.println("-------------");
             Price price = client
                     .get()
                     .uri(uriBuilder -> uriBuilder
-                            .path("services/price?vehicleId=" + vehicleId)
+                            .path("services/price/")
+                            .queryParam("vehicleId", vehicleId)
                             .build()
                     )
                     .retrieve().bodyToMono(Price.class).block();
-            System.out.println("-------------");
-            System.out.println(price);
-            System.out.println("-------------");
             return String.format("%s %s", price.getCurrency(), price.getPrice());
-
         } catch (Exception e) {
             log.error("Unexpected error retrieving price for vehicle {}", vehicleId, e);
         }
