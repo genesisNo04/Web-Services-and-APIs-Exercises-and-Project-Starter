@@ -145,8 +145,8 @@ public class CarControllerTest {
                         .accept(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().is(200))
                 .andExpect(jsonPath("$.condition", is(Condition.NEW.name())))
-                .andExpect(jsonPath("$.details.body",is("toyota")))
-                .andExpect(jsonPath("$.details.model", is("Test")));
+                .andExpect(jsonPath("$.details.body",is("sedan")))
+                .andExpect(jsonPath("$.details.model", is("Camry")));
     }
 
     /**
