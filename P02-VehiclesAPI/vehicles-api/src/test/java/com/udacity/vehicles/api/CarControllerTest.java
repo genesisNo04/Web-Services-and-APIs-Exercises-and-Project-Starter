@@ -4,10 +4,8 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.mockito.BDDMockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -137,6 +135,20 @@ public class CarControllerTest {
                 .andExpect(status().isNoContent());
     }
 
+    @Test
+    public void updateCar() throws Exception {
+        Car car = getUpdatedCar();
+        when(carService.save(any(Car.class))).thenReturn(car);
+        mvc.perform(put(new URI("/cars/1"))
+                        .content(json.write(car).getJson())
+                        .contentType(MediaType.APPLICATION_JSON_UTF8)
+                        .accept(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(status().is(200))
+                .andExpect(jsonPath("$.condition", is(Condition.NEW.name())))
+                .andExpect(jsonPath("$.details.body",is("toyota")))
+                .andExpect(jsonPath("$.details.model", is("Test")));
+    }
+
     /**
      * Creates an example Car object for use in testing.
      * @return an example Car object
@@ -160,4 +172,25 @@ public class CarControllerTest {
         car.setCondition(Condition.USED);
         return car;
     }
+
+    private Car getUpdatedCar() {
+        Car car = new Car();
+        car.setLocation(new Location(38.375172, 26.875061));
+        car.setCondition(Condition.NEW);
+        Details details = new Details();
+        Manufacturer manufacturer = new Manufacturer(102, "Toyota");
+        details.setManufacturer(manufacturer);
+        details.setModel("Test");
+        details.setMileage(32280);
+        details.setExternalColor("red");
+        details.setBody("toyota");
+        details.setEngine("3.6L V6");
+        details.setFuelType("Gasoline");
+        details.setModelYear(2021);
+        details.setProductionYear(2018);
+        details.setNumberOfDoors(4);
+        car.setDetails(details);
+        return car;
+    }
+
 }
