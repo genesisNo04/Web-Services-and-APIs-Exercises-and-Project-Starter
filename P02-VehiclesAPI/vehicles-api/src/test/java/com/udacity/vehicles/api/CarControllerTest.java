@@ -175,18 +175,18 @@ public class CarControllerTest {
 
     private Car getUpdatedCar() {
         Car car = new Car();
-        car.setLocation(new Location(38.375172, 26.875061));
+        car.setLocation(new Location(39.375172, 27.875061));
         car.setCondition(Condition.NEW);
         Details details = new Details();
         Manufacturer manufacturer = new Manufacturer(102, "Toyota");
         details.setManufacturer(manufacturer);
-        details.setModel("Test");
-        details.setMileage(32280);
-        details.setExternalColor("red");
-        details.setBody("toyota");
+        details.setModel("Camry");
+        details.setMileage(33460);
+        details.setExternalColor("Blue");
+        details.setBody("sedan");
         details.setEngine("3.6L V6");
         details.setFuelType("Gasoline");
-        details.setModelYear(2021);
+        details.setModelYear(2023);
         details.setProductionYear(2018);
         details.setNumberOfDoors(4);
         car.setDetails(details);
